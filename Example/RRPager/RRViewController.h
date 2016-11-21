@@ -6,8 +6,10 @@
 //  Copyright (c) 2016 Rutger Nijhuis. All rights reserved.
 //
 
+#import "RRPageViewController.h"
+
 @import UIKit;
 
-@interface RRViewController : UIViewController
+@interface RRViewController : RRPageViewController
 
 @end

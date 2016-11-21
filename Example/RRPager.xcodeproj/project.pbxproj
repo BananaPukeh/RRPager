@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		008493E08F97AE8B511F3777 /* Pods_RRPager_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0DDF525687F20457EB6CAC7 /* Pods_RRPager_Tests.framework */; };
 		0E0220FC2F9237217DCE23AC /* Pods_RRPager_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B9CB8C9E93972619B2A6EC /* Pods_RRPager_Example.framework */; };
+		213C5AC81DE30FF1009E4EF3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 213C5AC71DE30FF1009E4EF3 /* Launch Screen.storyboard */; };
+		213C5ACB1DE31043009E4EF3 /* RRContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -37,6 +39,9 @@
 
 /* Begin PBXFileReference section */
 		0C1C4697549A737FAE5F6749 /* RRPager.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RRPager.podspec; path = ../RRPager.podspec; sourceTree = "<group>"; };
+		213C5AC71DE30FF1009E4EF3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		213C5AC91DE31043009E4EF3 /* RRContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRContentViewController.h; path = ViewControllers/RRContentViewController.h; sourceTree = "<group>"; };
+		213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRContentViewController.m; path = ViewControllers/RRContentViewController.m; sourceTree = "<group>"; };
 		389EB03BC8770BB32AE51DBB /* Pods-RRPager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRPager_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RRPager_Tests/Pods-RRPager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		38B9CB8C9E93972619B2A6EC /* Pods_RRPager_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RRPager_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40B35C87B47D7C4BCF7DB494 /* Pods-RRPager_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRPager_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RRPager_Example/Pods-RRPager_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +140,8 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* RRViewController.h */,
 				6003F5A6195388D20070C39A /* RRViewController.m */,
+				213C5AC91DE31043009E4EF3 /* RRContentViewController.h */,
+				213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -149,6 +156,7 @@
 				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
 				6003F59B195388D20070C39A /* RRPager-Prefix.pch */,
+				213C5AC71DE30FF1009E4EF3 /* Launch Screen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -244,7 +252,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RR;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Rutger Nijhuis";
 				TargetAttributes = {
 					6003F5AD195388D20070C39A = {
@@ -279,6 +287,7 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				213C5AC81DE30FF1009E4EF3 /* Launch Screen.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,6 +402,7 @@
 			files = (
 				6003F59E195388D20070C39A /* RRAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* RRViewController.m in Sources */,
+				213C5ACB1DE31043009E4EF3 /* RRContentViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,14 +458,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -488,13 +503,18 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -544,6 +564,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 389EB03BC8770BB32AE51DBB /* Pods-RRPager_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -569,6 +590,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B3955CC003B7286522E5C19B /* Pods-RRPager_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
