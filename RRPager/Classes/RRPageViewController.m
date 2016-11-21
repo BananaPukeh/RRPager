@@ -60,6 +60,11 @@
 }
 
 - (void)scrollToIndex:(NSUInteger)index animated:(BOOL)animated{
+    if (index >= self.pages.count || index < 0){
+        NSLog(@"ERROR: scrollToIndex:animated: index:(%lu) is out of bounds:(%lu)", (long unsigned)index, (long unsigned)self.pages.count-1);
+        return;
+    }
+    
     UIViewController *controller = self.pages[index];
     
     
@@ -82,7 +87,6 @@
     NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
     _currentIndex = newIndex;
 }
-
 
 
 #pragma mark - UIPageViewController DataSource
