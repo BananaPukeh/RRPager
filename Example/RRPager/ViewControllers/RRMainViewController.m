@@ -37,7 +37,7 @@
     
     // Add some content controllers
     NSMutableArray <UIViewController *> *pages = [NSMutableArray new];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 50; i++) {
         RRContentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"content_controller"];
         vc.tag = i;
         [pages addObject:vc];

@@ -14,7 +14,9 @@
 
 @end
 
-@implementation RRPageViewController
+@implementation RRPageViewController{
+    CGFloat internalPageControlHeight;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,7 +25,25 @@
     self.dataSource = self;
     self.delegate = self;
     
+    // Setup default pageControl if none is specified through Interface Builder
+    internalPageControlHeight = 0;
+    if (!self.pageControl){
+        self.pageControl = [RRPageControl new];
+        self.pageControl.dataSource = self;
+        self.pageControl.delegate = self;
+        
+        [self.view addSubview:self.pageControl];
+        internalPageControlHeight = 50;
+        self.pageControl.backgroundColor = [UIColor redColor];
+    }
+    
     [self setupPageController];
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    self.pageController.view.frame = internalPageControlHeight == 0 ? self.view.bounds : CGRectMake(0, internalPageControlHeight, self.view.bounds.size.width, self.view.bounds.size.height-internalPageControlHeight);
+    self.pageControl.frame = CGRectMake(0, 0, self.pageController.view.bounds.size.width, internalPageControlHeight);
 }
 
 
@@ -35,7 +55,7 @@
                                                                         options:nil];
     self.pageController.dataSource = self;
     self.pageController.delegate = self;
-    self.pageController.view.frame = self.view.bounds;
+    
     [self.view addSubview:self.pageController.view];
 }
 
@@ -57,6 +77,8 @@
                                  completion:^(BOOL finished) {
                                      
                                  }];
+    
+    [self.pageControl reloadData];
 }
 
 - (void)scrollToIndex:(NSUInteger)index animated:(BOOL)animated{
@@ -141,5 +163,29 @@
     [self setCurrentIndex:newIndex];
 }
 
+
+#pragma mark - RRPageControl DataSource
+
+- (NSUInteger)pageControlNumberOfTabs:(RRPageControl *)control{
+    return self.pages.count;
+}
+
+- (UIView *)pageControl:(RRPageControl *)control viewForTabAtIndex:(NSUInteger)index{
+    UIView *view = [UIView new];
+    
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, control.tabWidth, control.bounds.size.height)];
+    lbl.text = @(index).stringValue;
+    lbl.textAlignment = NSTextAlignmentCenter;
+    [view addSubview:lbl];
+    
+    return view;
+}
+
+
+#pragma mark - RRPageControl Delegate
+
+- (void)pageControl:(RRPageControl *)control didSelectTabAtIndex:(NSUInteger)index{
+    [self scrollToIndex:index animated:YES];
+}
 
 @end

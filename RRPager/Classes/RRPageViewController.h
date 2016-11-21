@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RRPageControl.h"
 
 @class RRPageViewController;
 
@@ -40,7 +41,7 @@
 /**
  Paging controller
  */
-@interface RRPageViewController : UIViewController <RRPageViewControllerDataSource, RRPageViewControllerDelegate>
+@interface RRPageViewController : UIViewController <RRPageViewControllerDataSource, RRPageViewControllerDelegate, RRPageControlDataSource, RRPageControlDelegate>
 
 /**
  Our paging datasource supplier
@@ -66,6 +67,11 @@
  Indicates if we're scrolling to a page
  */
 @property (nonatomic, readonly) BOOL isScrolling;
+
+/**
+ The pagecontrol for our tabs
+ */
+@property (nonnull, nonatomic, retain) IBOutlet RRPageControl *pageControl;
 
 
 #pragma mark - Data
