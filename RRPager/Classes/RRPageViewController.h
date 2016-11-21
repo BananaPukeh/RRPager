@@ -32,7 +32,7 @@
 
 @optional
 
-- (void)pageController:(RRPageViewController *)controller didScrollToPage:(NSUInteger)index;
+- (void)pageController:(RRPageViewController * _Nonnull)controller didScrollToPage:(NSUInteger)index;
 
 @end
 
@@ -63,6 +63,11 @@
  The currently selected index
  */
 @property (nonatomic, readonly) NSUInteger currentIndex;
+
+/**
+ Indicates if we're scrolling to a page
+ */
+@property (nonatomic, readonly) BOOL isScrolling;
 
 
 #pragma mark - Data

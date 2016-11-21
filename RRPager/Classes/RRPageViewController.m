@@ -64,6 +64,12 @@
         NSLog(@"ERROR: scrollToIndex:animated: index:(%lu) is out of bounds:(%lu)", (long unsigned)index, (long unsigned)self.pages.count-1);
         return;
     }
+    else if (self.isScrolling){
+        NSLog(@"WARN: scrollToIndex:animated: We're already scrolling, terminating request..");
+        return;
+    }
+    
+    _isScrolling = YES;
     
     UIViewController *controller = self.pages[index];
     
@@ -76,7 +82,10 @@
                                  completion:^(BOOL finished) {
                                      // TODO: Make callback
                                      NSLog(@"scrollToIndex: completed");
+                                     
+                                     _isScrolling = NO;
                                      [self setCurrentIndex:index];
+                                     
                                  }];
 }
 
