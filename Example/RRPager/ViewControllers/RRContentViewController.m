@@ -16,6 +16,10 @@
     [super viewDidLoad];
     
     lblText.text = [NSString stringWithFormat:@"Page %lu", (long unsigned)self.tag];
+    lblText.adjustsFontSizeToFitWidth = YES;
+    
+    self.view.backgroundColor =  [UIColor colorWithWhite:self.tag % 2 ? .95 : .90 alpha:1] ;
+    
 }
 
 

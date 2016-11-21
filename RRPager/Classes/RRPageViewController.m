@@ -69,6 +69,7 @@
         return;
     }
     
+    // Lock other scroll events
     _isScrolling = YES;
     
     UIViewController *controller = self.pages[index];
@@ -126,13 +127,6 @@
 #pragma mark - UIPageViewController Delegate
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
-    
-    NSMutableArray <NSNumber *> *indexes = [NSMutableArray new];
-    for (UIViewController *vc in pageViewController.viewControllers) {
-        NSUInteger index = [self.pages indexOfObject:vc];
-        [indexes addObject:@(index)];
-    }
-    
     NSUInteger index = [self.pages indexOfObject:pageViewController.viewControllers.firstObject];
     
     NSLog(@"willTransition: %lu",(long unsigned)index);

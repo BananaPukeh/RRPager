@@ -42,22 +42,20 @@
  */
 @interface RRPageViewController : UIViewController <RRPageViewControllerDataSource, RRPageViewControllerDelegate>
 
-
 /**
  Our paging datasource supplier
  */
-@property (nonatomic, assign) id <RRPageViewControllerDataSource> dataSource;
+@property (nonnull, nonatomic, assign) id <RRPageViewControllerDataSource> dataSource;
 
 /**
  Our paging delegate
  */
-@property (nonatomic, assign) id <RRPageViewControllerDelegate> delegate;
-
+@property (nullable, nonatomic, assign) id <RRPageViewControllerDelegate> delegate;
 
 /**
  Our page content controllers
  */
-@property (nonatomic, readonly) NSArray <UIViewController *> *pages;
+@property (nonnull, nonatomic, readonly) NSArray <UIViewController *> *pages;
 
 /**
  The currently selected index
