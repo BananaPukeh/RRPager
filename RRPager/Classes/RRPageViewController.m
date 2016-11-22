@@ -8,7 +8,7 @@
 
 #import "RRPageViewController.h"
 
-@interface RRPageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface RRPageViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate>
 
 /**
  The PageController that contains the content controllers
@@ -41,17 +41,22 @@
     // Set the datasource and delegate to self, catch this in your subclass
     self.dataSource = self;
     self.delegate = self;
-    self.edgesForExtendedLayout = @[];
+   // self.edgesForExtendedLayout = @[];
     
     
     
     [self setupPageController];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.pageControl reloadData];
+    
+}
+
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    
-    [self.pageControl reloadData];
+//    [self.pageControl reloadData];
 }
 
 
@@ -63,6 +68,14 @@
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                           navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                         options:nil];
+    
+    
+    for (UIView *view in self.pageController.view.subviews) {
+        if ([view isKindOfClass:[UIScrollView class]]){
+            ((UIScrollView *)view).delegate = self;
+        }
+        
+    }
     self.pageController.dataSource = self;
     self.pageController.delegate = self;
     
@@ -79,7 +92,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
 
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.pageController.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     
     // Height
@@ -219,7 +232,7 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
     NSUInteger index = [self.pages indexOfObject:pendingViewControllers.firstObject];
     
-    [self.pageControl peekTabAtIndex:index];
+//    [self.pageControl peekTabAtIndex:index];
     
     NSLog(@"willTransition: %lu",(long unsigned)index);
 }
@@ -233,6 +246,19 @@
     [self setCurrentIndex:newIndex];
 }
 
+
+#pragma mark - UIScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+//    if (scrollView.panGestureRecognizer.state != UIGestureRecognizerStatePossible){
+        CGFloat origin = self.view.bounds.size.width;
+        
+        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
+        
+        [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
+//    }
+}
 
 #pragma mark - RRPageControl DataSource
 

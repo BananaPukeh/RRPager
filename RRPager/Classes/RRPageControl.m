@@ -22,7 +22,8 @@
 @end
 
 @implementation RRPageControl{
-    NSUInteger peekIndex;
+    
+    CGFloat scrollProgress;
 }
 
 @synthesize tabWidth = _tabWidth;
@@ -41,6 +42,7 @@
     self.scrollView = [UIScrollView new];
     self.scrollView.delegate = self;
     self.scrollView.frame = self.bounds;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
     
     [self addSubview:self.scrollView];
     
@@ -67,12 +69,45 @@
 
 - (void)drawRect:(CGRect)rect{
     [super drawRect:rect];
+    BOOL animate = self.indicator.frame.size.width > 0;
     
+    [self drawPagerInRect:rect animated:animate];
+
+}
+
+- (void)drawPagerInRect:(CGRect)rect animated:(BOOL)animated{
     CGFloat height = 2;
     
-    [UIView animateWithDuration:.3 animations:^{
-        self.indicator.frame = CGRectMake((self.selectedIndex*self.tabWidth), rect.size.height-height, self.tabWidth, height);
-    }];
+    CGFloat x = self.selectedIndex * self.tabWidth +  ((animated ? 0 : scrollProgress) * self.tabWidth);
+    /*
+     if(peekIndex > self.selectedIndex){
+        // Right
+        x+=self.tabWidth/2;
+    }
+    else if (peekIndex < self.selectedIndex){
+        // Left
+        x-=self.tabWidth/2;
+    }*/
+    
+    CGRect indicatorRect = CGRectMake(x, rect.size.height-height, self.tabWidth, height);
+    
+    // Get the x of the selected index
+    CGFloat selectedX = x;//self.selectedIndex * self.tabWidth;
+    CGFloat margin = (rect.size.width - self.tabWidth) / 2;
+    CGRect centerRect = CGRectMake(selectedX-margin, 0, self.tabWidth+margin+margin, height);
+    
+    
+    if (animated){
+        [UIView animateWithDuration:.3 animations:^{
+            self.indicator.frame = indicatorRect;
+        }];
+    }
+    else{
+        self.indicator.frame = indicatorRect;
+    }
+    
+    [self.scrollView scrollRectToVisible:centerRect animated:NO];
+    
     
 }
 
@@ -109,20 +144,26 @@
     // Bring the indicator to the front
     [self.scrollView bringSubviewToFront:self.indicator];
     
-    [self setNeedsDisplay];
+    //[self setNeedsDisplay];
 }
 
 - (void)selectTabAtIndex:(NSUInteger)index{
     _selectedIndex = index;
-    peekIndex = index; // reset the peek index
+    //peekIndex = index; // reset the peek index
+    scrollProgress = 0; //reset scroll progress
     
     // Animate to the new index
     [self setNeedsDisplay];
 }
 
-- (void)peekTabAtIndex:(NSUInteger)index{
-    peekIndex = index;
-    [self setNeedsDisplay];
+
+
+- (void)scrollProgress:(CGFloat)progress{
+    scrollProgress = progress;
+    
+    if (progress != 0){
+        [self drawPagerInRect:self.bounds animated:progress == fabs(1)];
+    }
 }
 
 

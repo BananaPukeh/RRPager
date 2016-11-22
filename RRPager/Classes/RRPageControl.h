@@ -62,11 +62,6 @@
  */
 - (void)selectTabAtIndex:(NSUInteger)index;
 
-/**
- Animate to the peek index
-
- @param peekIndex The index to peek to
- */
-- (void)peekTabAtIndex:(NSUInteger)peekIndex;
+- (void)scrollProgress:(CGFloat)progress;
 
 @end
