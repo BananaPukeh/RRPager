@@ -17,9 +17,15 @@
  */
 @property (nonatomic, retain) NSMutableArray <UIView *> *tabViews;
 
+
+
 @end
 
-@implementation RRPageControl
+@implementation RRPageControl{
+    NSUInteger peekIndex;
+}
+
+@synthesize tabWidth = _tabWidth;
 
 #pragma mark - Initializers
 
@@ -31,51 +37,52 @@
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    
-    [self defaultSetup];
-    
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    
-    [self defaultSetup];
-    
-    return self;
-}
-
 - (void)defaultSetup{
-    self.tabWidth = 50;
-    
     self.scrollView = [UIScrollView new];
     self.scrollView.delegate = self;
+    self.scrollView.frame = self.bounds;
     
     [self addSubview:self.scrollView];
     
-    /*
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.scrollView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.scrollView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.scrollView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:50]];
-     */
+    // ScrollView Constraints
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+    
+    
+    
+    // Indicator
+    _indicator = [UIView new];
+    self.indicator.backgroundColor = [UIColor greenColor];
+    [self.scrollView addSubview:self.indicator];
+    
+    
 }
 
-- (void)setFrame:(CGRect)frame{
-    [super setFrame:frame];
+
+#pragma mark - Layout
+
+- (void)drawRect:(CGRect)rect{
+    [super drawRect:rect];
     
-    // TODO: remove this and fix autolayout
-    self.scrollView.frame = self.bounds;
+    CGFloat height = 2;
+    
+    [UIView animateWithDuration:.3 animations:^{
+        self.indicator.frame = CGRectMake((self.selectedIndex*self.tabWidth), rect.size.height-height, self.tabWidth, height);
+    }];
+    
 }
+
 
 #pragma mark - Public 
 
 - (void)reloadData{
     // Rebuild scrollview
     
-    for (UIView *subView in self.scrollView.subviews) {
+    for (UIView *subView in self.tabViews) {
         [subView removeFromSuperview];
     }
     
@@ -99,12 +106,38 @@
         [self.tabViews addObject:tabView];
         x+= self.tabWidth;
     }
+    // Bring the indicator to the front
+    [self.scrollView bringSubviewToFront:self.indicator];
+    
+    [self setNeedsDisplay];
 }
 
 - (void)selectTabAtIndex:(NSUInteger)index{
+    _selectedIndex = index;
+    peekIndex = index; // reset the peek index
     
+    // Animate to the new index
+    [self setNeedsDisplay];
 }
 
+- (void)peekTabAtIndex:(NSUInteger)index{
+    peekIndex = index;
+    [self setNeedsDisplay];
+}
+
+
+#pragma mark - Properties
+
+- (void)setTabWidth:(NSUInteger)tabWidth{
+    _tabWidth = tabWidth;
+}
+
+- (NSUInteger)tabWidth{
+    if (!_tabWidth){
+        _tabWidth = 50;
+    }
+    return _tabWidth;
+}
 
 
 #pragma mark - UIScrollView Delegate
@@ -118,6 +151,8 @@
 
 - (void)tabTabbed:(UITapGestureRecognizer *)recognizer{
     NSUInteger index =  [self.tabViews indexOfObject:recognizer.view];
+    _selectedIndex = index;
+    
     [self.delegate pageControl:self didSelectTabAtIndex:index];
 }
 

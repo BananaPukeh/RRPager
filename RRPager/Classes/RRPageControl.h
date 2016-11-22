@@ -36,6 +36,11 @@
 @property (nonnull, nonatomic, assign) id<RRPageControlDataSource> dataSource;
 @property (nonnull, nonatomic, assign) id<RRPageControlDelegate> delegate;
 
+/**
+ Paging indicator
+ */
+@property (nonnull, nonatomic, retain, readonly) UIView *indicator;
+
 @property (nonatomic, readonly) NSUInteger selectedIndex;
 
 /**
@@ -56,5 +61,12 @@
  @param index The tabIndex to select
  */
 - (void)selectTabAtIndex:(NSUInteger)index;
+
+/**
+ Animate to the peek index
+
+ @param peekIndex The index to peek to
+ */
+- (void)peekTabAtIndex:(NSUInteger)peekIndex;
 
 @end

@@ -45,7 +45,6 @@
     
     [self.pageController setPageControllers:pages];
     
-    
     // Layout
     
     // Add some nice shadow to the holder view

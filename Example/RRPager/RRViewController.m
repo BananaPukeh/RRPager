@@ -13,27 +13,21 @@
 
 @end
 
-@implementation RRViewController{
- 
-}
+@implementation RRViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     
     NSMutableArray <UIViewController *> *pages = [NSMutableArray new];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 50; i++) {
         RRContentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"content_controller"];
         vc.tag = i;
-        vc.view.backgroundColor = i % 2 ? [UIColor redColor] : [UIColor greenColor];
         [pages addObject:vc];
     }
     
     [self setPageControllers:pages];
     
-    // Test reload after 2 sec
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self testReload];
-    });
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
 }
 
 
