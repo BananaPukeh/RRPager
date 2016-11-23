@@ -41,8 +41,8 @@
     // Set the datasource and delegate to self, catch this in your subclass
     self.dataSource = self;
     self.delegate = self;
-   // self.edgesForExtendedLayout = @[];
     
+    self.edgesForExtendedLayout = @[];
     
     
     [self setupPageController];
@@ -254,7 +254,7 @@
 //    if (scrollView.panGestureRecognizer.state != UIGestureRecognizerStatePossible){
         CGFloat origin = self.view.bounds.size.width;
         
-        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
+//        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
         
         [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
 //    }
@@ -267,15 +267,20 @@
     return self.pages.count;
 }
 
-- (UIView *)pageControl:(RRPageControl *)control viewForTabAtIndex:(NSUInteger)index{
+- (UIView *)pageControl:(RRPageControl *)control viewForTabAtIndex:(NSUInteger)index bounds:(CGRect)bounds{
     UIView *view = [UIView new];
     
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, control.tabWidth, control.bounds.size.height)];
+    UILabel *lbl = [[UILabel alloc] initWithFrame:bounds];
     lbl.text = @(index).stringValue;
     lbl.textAlignment = NSTextAlignmentCenter;
     [view addSubview:lbl];
     
     return view;
+}
+
+- (CGFloat)pageControl:(RRPageControl *)control widthForTabAtIndex:(NSUInteger)index{
+    return arc4random() % 100 + 50;
+    return index % 2 ? 50 : index % 3 ? 100 : 150;
 }
 
 

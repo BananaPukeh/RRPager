@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		008493E08F97AE8B511F3777 /* Pods_RRPager_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0DDF525687F20457EB6CAC7 /* Pods_RRPager_Tests.framework */; };
 		0E0220FC2F9237217DCE23AC /* Pods_RRPager_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38B9CB8C9E93972619B2A6EC /* Pods_RRPager_Example.framework */; };
-		211BDB071DE352ED00F52F33 /* RRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 211BDB061DE352ED00F52F33 /* RRMainViewController.m */; };
+		211BDB071DE352ED00F52F33 /* RRSubViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 211BDB061DE352ED00F52F33 /* RRSubViewViewController.m */; };
 		213C5AC81DE30FF1009E4EF3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 213C5AC71DE30FF1009E4EF3 /* Launch Screen.storyboard */; };
 		213C5ACB1DE31043009E4EF3 /* RRContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -18,7 +18,7 @@
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* RRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* RRAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* RRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* RRViewController.m */; };
+		6003F5A7195388D20070C39A /* RRSubclassedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* RRSubclassedViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -40,8 +40,8 @@
 
 /* Begin PBXFileReference section */
 		0C1C4697549A737FAE5F6749 /* RRPager.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RRPager.podspec; path = ../RRPager.podspec; sourceTree = "<group>"; };
-		211BDB051DE352ED00F52F33 /* RRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRMainViewController.h; path = ViewControllers/RRMainViewController.h; sourceTree = "<group>"; };
-		211BDB061DE352ED00F52F33 /* RRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRMainViewController.m; path = ViewControllers/RRMainViewController.m; sourceTree = "<group>"; };
+		211BDB051DE352ED00F52F33 /* RRSubViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRSubViewViewController.h; path = ViewControllers/RRSubViewViewController.h; sourceTree = "<group>"; };
+		211BDB061DE352ED00F52F33 /* RRSubViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRSubViewViewController.m; path = ViewControllers/RRSubViewViewController.m; sourceTree = "<group>"; };
 		213C5AC71DE30FF1009E4EF3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		213C5AC91DE31043009E4EF3 /* RRContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRContentViewController.h; path = ViewControllers/RRContentViewController.h; sourceTree = "<group>"; };
 		213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRContentViewController.m; path = ViewControllers/RRContentViewController.m; sourceTree = "<group>"; };
@@ -58,8 +58,8 @@
 		6003F59B195388D20070C39A /* RRPager-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RRPager-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* RRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RRAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* RRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* RRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RRViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* RRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRViewController.m; sourceTree = "<group>"; };
+		6003F5A5195388D20070C39A /* RRSubclassedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RRSubclassedViewController.h; sourceTree = "<group>"; };
+		6003F5A6195388D20070C39A /* RRSubclassedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRSubclassedViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* RRPager_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RRPager_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -101,6 +101,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2196FB301DE61CC1004DF055 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6003F5A5195388D20070C39A /* RRSubclassedViewController.h */,
+				6003F5A6195388D20070C39A /* RRSubclassedViewController.m */,
+				211BDB051DE352ED00F52F33 /* RRSubViewViewController.h */,
+				211BDB061DE352ED00F52F33 /* RRSubViewViewController.m */,
+				213C5AC91DE31043009E4EF3 /* RRContentViewController.h */,
+				213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -138,15 +151,10 @@
 		6003F593195388D20070C39A /* Example for RRPager */ = {
 			isa = PBXGroup;
 			children = (
+				2196FB301DE61CC1004DF055 /* ViewControllers */,
 				6003F59C195388D20070C39A /* RRAppDelegate.h */,
 				6003F59D195388D20070C39A /* RRAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				211BDB051DE352ED00F52F33 /* RRMainViewController.h */,
-				211BDB061DE352ED00F52F33 /* RRMainViewController.m */,
-				6003F5A5195388D20070C39A /* RRViewController.h */,
-				6003F5A6195388D20070C39A /* RRViewController.m */,
-				213C5AC91DE31043009E4EF3 /* RRContentViewController.h */,
-				213C5ACA1DE31043009E4EF3 /* RRContentViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -409,8 +417,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* RRAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* RRViewController.m in Sources */,
-				211BDB071DE352ED00F52F33 /* RRMainViewController.m in Sources */,
+				6003F5A7195388D20070C39A /* RRSubclassedViewController.m in Sources */,
+				211BDB071DE352ED00F52F33 /* RRSubViewViewController.m in Sources */,
 				213C5ACB1DE31043009E4EF3 /* RRContentViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);

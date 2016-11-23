@@ -6,14 +6,14 @@
 //  Copyright (c) 2016 Rutger Nijhuis. All rights reserved.
 //
 
-#import "RRViewController.h"
+#import "RRSubclassedViewController.h"
 #import "RRContentViewController.h"
 
-@interface RRViewController ()
+@interface RRSubclassedViewController ()
 
 @end
 
-@implementation RRViewController
+@implementation RRSubclassedViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -27,7 +27,13 @@
     
     [self setPageControllers:pages];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setPageControllers:pages];
+    });
+    
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    
+    
 }
 
 
