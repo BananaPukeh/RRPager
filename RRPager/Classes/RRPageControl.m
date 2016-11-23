@@ -75,7 +75,7 @@
     BOOL animate = self.indicator.frame.size.width > 0;
     
     [self drawPagerInRect:rect animated:animate];
-
+    
 }
 
 - (void)drawPagerInRect:(CGRect)rect animated:(BOOL)animated{
@@ -130,7 +130,7 @@
 }
 
 
-#pragma mark - Public 
+#pragma mark - Public
 
 - (void)reloadData{
     // Rebuild scrollview
@@ -140,7 +140,7 @@
     }
     
     NSUInteger numberTabs = [self.dataSource pageControlNumberOfTabs:self];
-   
+    
     _tabWidths = [NSMutableArray new];
     // Try if cusom tabWidth are provided
     if ([self.dataSource respondsToSelector:@selector(pageControl:widthForTabAtIndex:)]) {

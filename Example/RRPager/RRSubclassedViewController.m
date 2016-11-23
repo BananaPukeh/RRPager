@@ -25,11 +25,11 @@
         [pages addObject:vc];
     }
     
-    [self setPageControllers:pages];
+    [self setPageControllers:nil];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self setPageControllers:pages];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self setPageControllers:pages];
+//    });
     
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
     

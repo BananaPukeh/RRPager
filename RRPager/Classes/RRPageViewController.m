@@ -56,7 +56,7 @@
 
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-//    [self.pageControl reloadData];
+    //    [self.pageControl reloadData];
 }
 
 
@@ -91,7 +91,7 @@
     // Page control constraints
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-
+    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.pageController.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     
@@ -124,17 +124,24 @@
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers{
-    _pages = controllers;
+    if (!controllers || controllers.count == 0){
+        _pages = @[[UIViewController new]];
+    }
+    else{
+        _pages = controllers;
+    }
+    
     [self reloadData];
 }
 
 - (void)reloadData{
     NSArray *pages = self.pages;
-    if (!self.pages || self.pages.count == 0){
-        pages = @[[UIViewController new]];
+    
+    
+    NSLog(@"reload..");
+    while (self.isScrolling) {
+        return;
     }
-        
-        
     [self.pageController setViewControllers:@[pages.firstObject]
                                   direction:UIPageViewControllerNavigationDirectionForward
                                    animated:NO
@@ -152,7 +159,7 @@
     }
     else if (self.isScrolling){
         NSLog(@"WARN: scrollToIndex:animated: We're already scrolling, terminating request..");
-//        return;
+        //        return;
     }
     
     // Lock other scroll events
@@ -164,7 +171,7 @@
     UIPageViewControllerNavigationDirection direction = self.currentIndex > index ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
     
     __weak RRPageViewController *weakSelf = self;
-    
+    NSLog(@"sccrol.");
     [self.pageController setViewControllers:@[controller]
                                   direction:direction
                                    animated:animated
@@ -186,6 +193,10 @@
     _currentIndex = newIndex;
     
     [self.pageControl selectTabAtIndex:newIndex animated:NO];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pageController:didScrollToPage:)]){
+        [self.delegate pageController:self didScrollToPage:newIndex];
+    }
 }
 
 - (void)setPageControlHeight:(CGFloat)pageControlHeight{
@@ -234,7 +245,7 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
     NSUInteger index = [self.pages indexOfObject:pendingViewControllers.firstObject];
     
-//    [self.pageControl peekTabAtIndex:index];
+    //    [self.pageControl peekTabAtIndex:index];
     
     NSLog(@"willTransition: %lu",(long unsigned)index);
 }
@@ -253,13 +264,13 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-//    if (scrollView.panGestureRecognizer.state != UIGestureRecognizerStatePossible){
-        CGFloat origin = self.view.bounds.size.width;
-        
-//        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
-        
-        [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
-//    }
+    //    if (scrollView.panGestureRecognizer.state != UIGestureRecognizerStatePossible){
+    CGFloat origin = self.view.bounds.size.width;
+    
+    //        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
+    
+    [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
+    //    }
 }
 
 
@@ -282,7 +293,7 @@
 
 - (CGFloat)pageControl:(RRPageControl *)control widthForTabAtIndex:(NSUInteger)index{
     return 50;
-//    return arc4random() % 100 + 50;
+    //    return arc4random() % 100 + 50;
 }
 
 
