@@ -19,6 +19,8 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "RRPager"
 ```
+I will add a detailed guide here in the future, for now use `pod try "RRPager" ` for an example project  
+
 
 ## Author
 
