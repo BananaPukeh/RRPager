@@ -74,6 +74,14 @@
 @property (nonnull, nonatomic, retain) IBOutlet RRPageControl *pageControl;
 
 
+#pragma mark - PageControl
+
+/**
+ Height for the page control
+ */
+@property (nonatomic) CGFloat pageControlHeight;
+
+
 #pragma mark - Data
 
 

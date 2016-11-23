@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RRMainViewController : UIViewController
+@interface RRSubViewViewController : UIViewController
 
 @end

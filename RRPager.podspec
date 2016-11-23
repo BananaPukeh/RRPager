@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RRPager'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of RRPager.'
+  s.version          = '1.0.0'
+  s.summary          = 'ViewController based paging library with tabs focused on fully customization'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,14 +18,18 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Super easy ViewController based paging library with a PageControl included focused on fully customization.
+- Live PageControl updates based on scroll position
+- Custom PageControl views
+- Multiple PageControl widths
+- More...
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/RRPager'
+  s.homepage         = 'https://github.com/BananaPukeh/RRPager'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Rutger Nijhuis' => 'rutger@blueprint-software.nl' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/RRPager.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/BananaPukeh/RRPager.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'

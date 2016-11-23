@@ -10,6 +10,6 @@
 
 @import UIKit;
 
-@interface RRViewController : RRPageViewController
+@interface RRSubclassedViewController : RRPageViewController
 
 @end

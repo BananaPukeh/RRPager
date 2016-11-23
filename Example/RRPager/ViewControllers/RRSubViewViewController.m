@@ -6,11 +6,11 @@
 //  Copyright © 2016 Rutger Nijhuis. All rights reserved.
 //
 
-#import "RRMainViewController.h"
+#import "RRSubViewViewController.h"
 #import "RRPageViewController.h"
 #import "RRContentViewController.h"
 
-@interface RRMainViewController () <RRPageViewControllerDataSource, RRPageViewControllerDelegate>
+@interface RRSubViewViewController () <RRPageViewControllerDataSource, RRPageViewControllerDelegate>
 
 // The pageController
 @property (nonatomic, retain) RRPageViewController *pageController;
@@ -21,7 +21,7 @@
 @end
 
 // Use this as the viewPager dataSource
-@implementation RRMainViewController
+@implementation RRSubViewViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +44,6 @@
     }
     
     [self.pageController setPageControllers:pages];
-    
     
     // Layout
     
