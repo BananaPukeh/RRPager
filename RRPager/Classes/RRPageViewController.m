@@ -42,7 +42,7 @@
     self.dataSource = self;
     self.delegate = self;
     
-    self.edgesForExtendedLayout = @[];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     
     [self setupPageController];
@@ -146,7 +146,7 @@
 }
 
 - (void)scrollToIndex:(NSUInteger)index animated:(BOOL)animated{
-    if (index >= self.pages.count || index < 0){
+    if (index >= self.pages.count || (NSInteger)index < 0){
         NSLog(@"ERROR: scrollToIndex:animated: index:(%lu) is out of bounds:(%lu)", (long unsigned)index, (long unsigned)self.pages.count-1);
         return;
     }
@@ -163,6 +163,8 @@
     
     UIPageViewControllerNavigationDirection direction = self.currentIndex > index ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
     
+    __weak RRPageViewController *weakSelf = self;
+    
     [self.pageController setViewControllers:@[controller]
                                   direction:direction
                                    animated:animated
@@ -170,7 +172,7 @@
                                      // TODO: Make callback
                                      NSLog(@"scrollToIndex: completed");
                                      
-                                     [self setCurrentIndex:index];
+                                     [weakSelf setCurrentIndex:index];
                                      _isScrolling = NO;
                                      
                                  }];
@@ -279,8 +281,8 @@
 }
 
 - (CGFloat)pageControl:(RRPageControl *)control widthForTabAtIndex:(NSUInteger)index{
-    return arc4random() % 100 + 50;
-    return index % 2 ? 50 : index % 3 ? 100 : 150;
+    return 50;
+//    return arc4random() % 100 + 50;
 }
 
 
