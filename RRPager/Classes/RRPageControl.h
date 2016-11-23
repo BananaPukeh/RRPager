@@ -62,6 +62,8 @@
  */
 - (void)selectTabAtIndex:(NSUInteger)index;
 
+- (void)selectTabAtIndex:(NSUInteger)index animated:(BOOL)animated;
+
 - (void)scrollProgress:(CGFloat)progress;
 
 @end

@@ -17,13 +17,13 @@
  */
 @property (nonatomic, retain) NSMutableArray <UIView *> *tabViews;
 
-
-
 @end
 
 @implementation RRPageControl{
     
     CGFloat scrollProgress;
+    
+    BOOL listenToScrollProgress;
 }
 
 @synthesize tabWidth = _tabWidth;
@@ -46,6 +46,8 @@
     
     [self addSubview:self.scrollView];
     
+    listenToScrollProgress = YES;
+    
     // ScrollView Constraints
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -60,8 +62,6 @@
     _indicator = [UIView new];
     self.indicator.backgroundColor = [UIColor greenColor];
     [self.scrollView addSubview:self.indicator];
-    
-    
 }
 
 
@@ -79,36 +79,27 @@
     CGFloat height = 2;
     
     CGFloat x = self.selectedIndex * self.tabWidth +  ((animated ? 0 : scrollProgress) * self.tabWidth);
-    /*
-     if(peekIndex > self.selectedIndex){
-        // Right
-        x+=self.tabWidth/2;
-    }
-    else if (peekIndex < self.selectedIndex){
-        // Left
-        x-=self.tabWidth/2;
-    }*/
     
     CGRect indicatorRect = CGRectMake(x, rect.size.height-height, self.tabWidth, height);
     
     // Get the x of the selected index
-    CGFloat selectedX = x;//self.selectedIndex * self.tabWidth;
     CGFloat margin = (rect.size.width - self.tabWidth) / 2;
-    CGRect centerRect = CGRectMake(selectedX-margin, 0, self.tabWidth+margin+margin, height);
+    CGRect centerRect = CGRectMake(x-margin, 0, self.tabWidth+margin+margin, height);
     
     
     if (animated){
         [UIView animateWithDuration:.3 animations:^{
             self.indicator.frame = indicatorRect;
+        } completion:^(BOOL finished) {
+            listenToScrollProgress = YES;
         }];
     }
     else{
         self.indicator.frame = indicatorRect;
+        listenToScrollProgress = YES;
     }
     
-    [self.scrollView scrollRectToVisible:centerRect animated:NO];
-    
-    
+    [self.scrollView scrollRectToVisible:centerRect animated:animated];
 }
 
 
@@ -148,21 +139,24 @@
 }
 
 - (void)selectTabAtIndex:(NSUInteger)index{
-    _selectedIndex = index;
-    //peekIndex = index; // reset the peek index
-    scrollProgress = 0; //reset scroll progress
-    
-    // Animate to the new index
-    [self setNeedsDisplay];
+    [self selectTabAtIndex:index animated:YES];
 }
 
-
+- (void)selectTabAtIndex:(NSUInteger)index animated:(BOOL)animated{
+    _selectedIndex = index;
+    scrollProgress = 0; //reset scroll progress
+    
+    // Disable scrollProgress listening while scrolling to the new index
+    
+    // Animate to the new index
+    [self drawPagerInRect:self.bounds animated:animated];
+}
 
 - (void)scrollProgress:(CGFloat)progress{
     scrollProgress = progress;
     
-    if (progress != 0){
-        [self drawPagerInRect:self.bounds animated:progress == fabs(1)];
+    if (progress != 0 && listenToScrollProgress){
+        [self drawPagerInRect:self.bounds animated:NO];
     }
 }
 
@@ -192,7 +186,8 @@
 
 - (void)tabTabbed:(UITapGestureRecognizer *)recognizer{
     NSUInteger index =  [self.tabViews indexOfObject:recognizer.view];
-    _selectedIndex = index;
+    listenToScrollProgress = NO;
+    [self selectTabAtIndex:index animated:YES];
     
     [self.delegate pageControl:self didSelectTabAtIndex:index];
 }

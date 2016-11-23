@@ -170,8 +170,8 @@
                                      // TODO: Make callback
                                      NSLog(@"scrollToIndex: completed");
                                      
-                                     _isScrolling = NO;
                                      [self setCurrentIndex:index];
+                                     _isScrolling = NO;
                                      
                                  }];
 }
@@ -183,7 +183,7 @@
     NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
     _currentIndex = newIndex;
     
-    [self.pageControl selectTabAtIndex:newIndex];
+    [self.pageControl selectTabAtIndex:newIndex animated:NO];
 }
 
 - (void)setPageControlHeight:(CGFloat)pageControlHeight{
@@ -259,6 +259,7 @@
         [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
 //    }
 }
+
 
 #pragma mark - RRPageControl DataSource
 
