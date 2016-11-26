@@ -227,8 +227,8 @@
 #pragma mark - UITapGestureRecognizer
 
 - (void)tabTabbed:(UITapGestureRecognizer *)recognizer{
-    NSUInteger index =  [self.tabViews indexOfObject:recognizer.view];
     
+    NSUInteger index =  [self.tabViews indexOfObject:recognizer.view];
     
     // Disable scrollProgress listening while scrolling to the new index
     listenToScrollProgress = NO;

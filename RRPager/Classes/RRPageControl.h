@@ -16,7 +16,7 @@
 
 /**
  Number of tabs in our PageControl
-
+ 
  @param control The PageControl
  @return Number of tabs
  */
@@ -24,7 +24,7 @@
 
 /**
  View for a tab index
-
+ 
  @param control The PageControl
  @param index Index for the view
  @param bounds  The bounds that the view gets
@@ -37,7 +37,7 @@
 
 /**
  Overrides the `self.tabWidth` property and specify tabwidths individually
-
+ 
  @param control The PageControl
  @param index Index for the tab
  @return Width for the tab
@@ -54,7 +54,7 @@
 
 /**
  Called when a tab has been selected
-
+ 
  @param control The PageControl
  @param index The selected index
  */
@@ -105,7 +105,7 @@
 
 /**
  Select a tab
-
+ 
  @param index The tabIndex to select
  @param animated Should we select animated?
  */
@@ -113,7 +113,7 @@
 
 /**
  Update the progress for the selected index
-
+ 
  @param progress Value between -1 and 1
  */
 - (void)scrollProgress:(CGFloat)progress;

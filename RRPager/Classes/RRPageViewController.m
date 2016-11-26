@@ -24,7 +24,9 @@
 @end
 
 @implementation RRPageViewController{
-    CGFloat internalPageControlHeight;
+    
+    // Bools
+    BOOL sendScrollProgress;
     
     // Constraints
     NSLayoutConstraint *constraintPageControlHeight;
@@ -43,9 +45,6 @@
     self.dataSource = self;
     self.delegate = self;
     
-    //    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-    
     [self setupPageController];
 }
 
@@ -56,8 +55,6 @@
 }
 
 
-
-
 #pragma mark - PageViewController
 
 - (void)setupPageController{
@@ -66,7 +63,7 @@
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                           navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                         options:nil];
-    
+    sendScrollProgress = YES;
     
     for (UIView *view in self.pageController.view.subviews) {
         if ([view isKindOfClass:[UIScrollView class]]){
@@ -99,8 +96,6 @@
     [self.pageControlWrapper addConstraint:constraintPageControlHeight];
     
     // Page controller constraints
-    
-    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
@@ -113,6 +108,12 @@
         self.pageControl.backgroundColor = [UIColor whiteColor];
         [self.pageControlWrapper addSubview:self.pageControl];
         
+        // Shadow
+        self.pageControl.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.pageControl.layer.shadowOffset = CGSizeMake(0, 3);
+        self.pageControl.layer.shadowRadius = 1.5;
+        self.pageControl.layer.shadowOpacity = .1;
+        
         // Page control constraints
         self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
         [self.pageControlWrapper addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControl attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.pageControlWrapper attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
@@ -123,6 +124,7 @@
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers{
+    NSLog(@"-setPageControllers:");
     if (!controllers || controllers.count == 0){
         _pages = @[[UIViewController new]];
     }
@@ -136,18 +138,20 @@
 - (void)reloadData{
     NSArray *pages = self.pages;
     
-    
-    NSLog(@"reload..");
-    while (self.isScrolling) {
+    if (self.isScrolling) {
+        NSLog(@"-reloadData, already scrolling!");
         return;
     }
+    NSLog(@"-reloadData");
     [self.pageController setViewControllers:@[pages.firstObject]
                                   direction:UIPageViewControllerNavigationDirectionForward
                                    animated:NO
                                  completion:^(BOOL finished) {
-                                     
+                                     // Reset this
+                                     self.isScrolling = NO;
+                                     sendScrollProgress = YES;
                                  }];
-    
+    self.currentIndex = 0;
     [self.pageControl reloadData];
 }
 
@@ -166,14 +170,20 @@
     }
     
     // Lock other scroll events
-    _isScrolling = YES;
+    [self setIsScrolling:YES];
+    // Dont send scroll progress
+    sendScrollProgress = NO;
+    
+    // Animate the page control
+    [self.pageControl selectTabAtIndex:index animated:animated];
     
     UIViewController *controller = self.pages[index];
     
     UIPageViewControllerNavigationDirection direction = self.currentIndex > index ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
     
     __weak RRPageViewController *weakSelf = self;
-    NSLog(@"sccrol.");
+    NSLog(@"-scrollToIndex:(%lu) animated:(%@), currentIndex:(%lu)", (unsigned long)index, animated ? @"YES" : @"NO", (unsigned long)self.currentIndex);
+    
     [self.pageController setViewControllers:@[controller]
                                   direction:direction
                                    animated:animated
@@ -182,7 +192,8 @@
                                      NSLog(@"scrollToIndex: completed");
                                      
                                      [weakSelf setCurrentIndex:index];
-                                     _isScrolling = NO;
+                                     [self setIsScrolling:NO];
+                                     sendScrollProgress = YES;
                                      
                                  }];
 }
@@ -191,6 +202,8 @@
 #pragma mark - Properties
 
 - (void)setCurrentIndex:(NSUInteger)newIndex{
+    if (newIndex > NSIntegerMax) return; // Invalid data..
+    
     NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
     _currentIndex = newIndex;
     
@@ -213,6 +226,11 @@
         _pageControlHeight = 60;
     }
     return _pageControlHeight;
+}
+
+- (void)setIsScrolling:(BOOL)isScrolling{
+    NSLog(@"isScrolling: %@", isScrolling ? @"YES" : @"NO");
+    _isScrolling = isScrolling;
 }
 
 
@@ -303,13 +321,11 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    //    if (scrollView.panGestureRecognizer.state != UIGestureRecognizerStatePossible){
-    CGFloat origin = self.view.bounds.size.width;
-    
-    //        NSLog(@"didScrol.. %.0f / %.3f%%",scrollView.contentOffset.x, (scrollView.contentOffset.x/origin)-1);
-    
-    [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
-    //    }
+    // Only send progress when we should
+    if (sendScrollProgress){
+        CGFloat origin = self.view.bounds.size.width;
+        [self.pageControl scrollProgress:(scrollView.contentOffset.x/origin)-1];
+    }
 }
 
 
@@ -332,7 +348,6 @@
 
 - (CGFloat)pageControl:(RRPageControl *)control widthForTabAtIndex:(NSUInteger)index{
     return 50;
-    //    return arc4random() % 100 + 50;
 }
 
 
