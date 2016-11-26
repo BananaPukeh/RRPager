@@ -124,7 +124,6 @@
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers{
-    NSLog(@"-setPageControllers:");
     if (!controllers || controllers.count == 0){
         _pages = @[[UIViewController new]];
     }
@@ -142,7 +141,6 @@
         NSLog(@"-reloadData, already scrolling!");
         return;
     }
-    NSLog(@"-reloadData");
     [self.pageController setViewControllers:@[pages.firstObject]
                                   direction:UIPageViewControllerNavigationDirectionForward
                                    animated:NO
@@ -161,11 +159,11 @@
         return;
     }
     else if (self.currentIndex == index){
-        NSLog(@"WARN: scrollToIndex:animated: Already at index %lu, terminating scroll", (long unsigned)index);
+        //NSLog(@"WARN: scrollToIndex:animated: Already at index %lu, terminating scroll", (long unsigned)index);
         return;
     }
     else if (self.isScrolling){
-        NSLog(@"WARN: scrollToIndex:animated: We're already scrolling, terminating request..");
+        //NSLog(@"WARN: scrollToIndex:animated: We're already scrolling, terminating request..");
         return;
     }
     
@@ -182,14 +180,14 @@
     UIPageViewControllerNavigationDirection direction = self.currentIndex > index ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
     
     __weak RRPageViewController *weakSelf = self;
-    NSLog(@"-scrollToIndex:(%lu) animated:(%@), currentIndex:(%lu)", (unsigned long)index, animated ? @"YES" : @"NO", (unsigned long)self.currentIndex);
+    //NSLog(@"-scrollToIndex:(%lu) animated:(%@), currentIndex:(%lu)", (unsigned long)index, animated ? @"YES" : @"NO", (unsigned long)self.currentIndex);
     
     [self.pageController setViewControllers:@[controller]
                                   direction:direction
                                    animated:animated
                                  completion:^(BOOL finished) {
-                                     // TODO: Make callback
-                                     NSLog(@"scrollToIndex: completed");
+                                     
+                                     //  NSLog(@"scrollToIndex: completed");
                                      
                                      [weakSelf setCurrentIndex:index];
                                      [self setIsScrolling:NO];
@@ -229,7 +227,6 @@
 }
 
 - (void)setIsScrolling:(BOOL)isScrolling{
-    NSLog(@"isScrolling: %@", isScrolling ? @"YES" : @"NO");
     _isScrolling = isScrolling;
 }
 
@@ -299,8 +296,6 @@
     NSUInteger index = [self.pages indexOfObject:pendingViewControllers.firstObject];
     
     //    [self.pageControl peekTabAtIndex:index];
-    
-    NSLog(@"willTransition: %lu",(long unsigned)index);
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed{
@@ -308,11 +303,8 @@
     NSUInteger newIndex = [self.pages indexOfObject: pageViewController.viewControllers.firstObject];
     if(newIndex > NSIntegerMax){
         // Invalid maxIndex..
-        NSLog(@"uh invalid maxinteger....");
         return;
     }
-    NSLog(@"didFinishAnimating: current: %lu", (long unsigned)newIndex);
-    
     [self setCurrentIndex:newIndex];
 }
 
