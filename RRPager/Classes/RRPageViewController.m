@@ -43,6 +43,8 @@
     self.dataSource = self;
     self.delegate = self;
     
+    //    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     
     [self setupPageController];
 }
@@ -168,7 +170,6 @@
     
     UIViewController *controller = self.pages[index];
     
-    
     UIPageViewControllerNavigationDirection direction = self.currentIndex > index ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
     
     __weak RRPageViewController *weakSelf = self;
@@ -205,7 +206,6 @@
     
     // Update contstraints
     constraintPageControlHeight.constant = pageControlHeight;
-    
 }
 
 - (CGFloat)pageControlHeight{
@@ -243,6 +243,8 @@
 #pragma mark - UIPageViewController DataSource
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController{
+    if (![self.pages containsObject:viewController]) return nil; // Invalid data
+    
     NSUInteger index = [self.pages indexOfObject:viewController];
     if (index == 0){
         // This is already the first object
@@ -257,6 +259,8 @@
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController{
+    if (![self.pages containsObject:viewController]) return nil; // Invalid data
+    
     NSUInteger index = [self.pages indexOfObject:viewController];
     if (index+1 == self.pages.count){
         // This is already the last object
