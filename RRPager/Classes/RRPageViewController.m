@@ -28,10 +28,11 @@
     
     // Constraints
     NSLayoutConstraint *constraintPageControlHeight;
+    NSLayoutConstraint *constraintPageControlWrapperTop;
 }
 
 @synthesize pageControlHeight = _pageControlHeight;
-
+@synthesize pageBackgroundColor = _pageBackgroundColor;
 
 #pragma mark - LifeCycle
 
@@ -42,22 +43,17 @@
     self.dataSource = self;
     self.delegate = self;
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     
     [self setupPageController];
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.pageControl reloadData];
     
 }
 
-- (void)viewDidLayoutSubviews{
-    [super viewDidLayoutSubviews];
-    //    [self.pageControl reloadData];
-}
+
 
 
 #pragma mark - PageViewController
@@ -92,7 +88,8 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    constraintPageControlWrapperTop = [NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+    [self.view addConstraint:constraintPageControlWrapperTop];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControlWrapper attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.pageController.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
     
     // Height
@@ -157,9 +154,13 @@
         NSLog(@"ERROR: scrollToIndex:animated: index:(%lu) is out of bounds:(%lu)", (long unsigned)index, (long unsigned)self.pages.count-1);
         return;
     }
+    else if (self.currentIndex == index){
+        NSLog(@"WARN: scrollToIndex:animated: Already at index %lu, terminating scroll", (long unsigned)index);
+        return;
+    }
     else if (self.isScrolling){
         NSLog(@"WARN: scrollToIndex:animated: We're already scrolling, terminating request..");
-        //        return;
+        return;
     }
     
     // Lock other scroll events
@@ -215,6 +216,30 @@
 }
 
 
+#pragma mark - Layout
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    
+    // Not sure if this is the correct way to do
+    constraintPageControlWrapperTop.constant = self.topLayoutGuide.length;
+}
+
+- (UIColor *)pageBackgroundColor{
+    if (_pageBackgroundColor){
+        [self setPageBackgroundColor:[UIColor clearColor]];
+    }
+    return _pageBackgroundColor;
+}
+
+- (void)setPageBackgroundColor:(UIColor *)pageBackgroundColor{
+    
+    _pageBackgroundColor = pageBackgroundColor;
+    
+    self.pageController.view.backgroundColor = _pageBackgroundColor;
+}
+
+
 #pragma mark - UIPageViewController DataSource
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController{
@@ -224,7 +249,10 @@
         return nil;
     }
     else{
-        return self.pages[index-1];
+        if (self.pages[index-1]){
+            return self.pages[index-1];
+        }
+        return nil;
     }
 }
 
@@ -235,7 +263,10 @@
         return nil;
     }
     else{
-        return self.pages[index+1];
+        if (self.pages[index+1]){
+            return self.pages[index+1];
+        }
+        return nil;
     }
 }
 
@@ -253,7 +284,11 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed{
     
     NSUInteger newIndex = [self.pages indexOfObject: pageViewController.viewControllers.firstObject];
-    
+    if(newIndex > NSIntegerMax){
+        // Invalid maxIndex..
+        NSLog(@"uh invalid maxinteger....");
+        return;
+    }
     NSLog(@"didFinishAnimating: current: %lu", (long unsigned)newIndex);
     
     [self setCurrentIndex:newIndex];
@@ -302,5 +337,7 @@
 - (void)pageControl:(RRPageControl *)control didSelectTabAtIndex:(NSUInteger)index{
     [self scrollToIndex:index animated:YES];
 }
+
+
 
 @end

@@ -88,7 +88,7 @@
 /**
  Set the page controllers for our pageController
  This will cause a `-reloadData` trigger
-
+ 
  @param controllers The controller to add
  */
 - (void)setPageControllers:(nonnull NSArray <UIViewController *> *)controllers;
@@ -101,11 +101,19 @@
 
 /**
  Scroll to a page
-
+ 
  @param index The index to scroll to
  @param animated Should we scroll animated?
  */
 - (void)scrollToIndex:(NSUInteger)index animated:(BOOL)animated;
+
+
+#pragma mark - Layout
+
+/**
+ The background color of the pagecontroller
+ */
+@property (nonatomic, retain) UIColor *pageBackgroundColor;
 
 
 @end
