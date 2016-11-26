@@ -17,12 +17,6 @@
  */
 @protocol RRPageViewControllerDataSource <NSObject>
 
-//@required
-//
-//- (NSUInteger)pageControllerNumberOfPages:(RRPageViewController *)controller;
-//
-//- (UIViewController *)pageController:(RRPageViewController *)controller controllerForIndex:(NSInteger)index;
-
 @end
 
 
