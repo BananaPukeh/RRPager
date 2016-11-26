@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RRPager'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'ViewController based paging library with tabs focused on fully customization'
 
 # This description is used to generate tags and improve search results.
