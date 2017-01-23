@@ -202,7 +202,7 @@
 - (void)setCurrentIndex:(NSUInteger)newIndex{
     if (newIndex > NSIntegerMax) return; // Invalid data..
     
-    NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
+    //NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
     _currentIndex = newIndex;
     
     [self.pageControl selectTabAtIndex:newIndex animated:NO];
