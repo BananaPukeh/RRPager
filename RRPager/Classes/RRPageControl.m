@@ -75,7 +75,6 @@
     BOOL animate = self.indicator.frame.size.width > 0;
     
     [self drawPagerInRect:rect animated:animate];
-    
 }
 
 - (void)drawPagerInRect:(CGRect)rect animated:(BOOL)animated{
@@ -113,6 +112,10 @@
     CGFloat margin = (rect.size.width - translatedWidth) / 2;
     CGRect centerRect = CGRectMake(x-margin, 0, translatedWidth+margin+margin, height);
     
+    // Cancel animation when the Y is not positive, this is usally when the view is being inited
+    if (self.indicator.frame.origin.y < 0) {
+        animated = NO;
+    }
     
     if (animated){
         [UIView animateWithDuration:.3 animations:^{
