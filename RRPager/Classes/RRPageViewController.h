@@ -60,7 +60,7 @@
 /**
  Indicates if we're scrolling to a page
  */
-@property (nonatomic, readonly) BOOL isScrolling;
+@property (nonatomic) BOOL isScrolling;
 
 /**
  The pagecontrol for our tabs
