@@ -63,6 +63,7 @@
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                           navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                         options:nil];
+    
     sendScrollProgress = YES;
     
     for (UIView *view in self.pageController.view.subviews) {
@@ -75,6 +76,10 @@
     self.pageController.delegate = self;
     
     [self.view addSubview:self.pageController.view];
+    
+    
+    [self addChildViewController:self.pageController];
+    [self.pageController didMoveToParentViewController:self];
     
     // Page control wrapper
     self.pageControlWrapper = [UIView new];
