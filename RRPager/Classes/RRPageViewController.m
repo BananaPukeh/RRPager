@@ -205,7 +205,7 @@
 #pragma mark - Properties
 
 - (void)setCurrentIndex:(NSUInteger)newIndex{
-    if (newIndex > NSIntegerMax) return; // Invalid data..
+    if (newIndex > NSIntegerMax || newIndex >= self.pages.count) return; // Invalid data..
     
     //NSLog(@"Index changed %lu => %lu", (long unsigned)self.currentIndex, (long unsigned)newIndex);
     _currentIndex = newIndex;
