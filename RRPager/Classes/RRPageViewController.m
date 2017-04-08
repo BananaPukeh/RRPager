@@ -146,15 +146,18 @@
         NSLog(@"-reloadData, already scrolling!");
         return;
     }
+    
+    __weak typeof(self) weakSelf = self;
+    
     [self.pageController setViewControllers:@[pages.firstObject]
                                   direction:UIPageViewControllerNavigationDirectionForward
                                    animated:NO
                                  completion:^(BOOL finished) {
                                      // Reset this
-                                     self.isScrolling = NO;
+                                     [weakSelf setIsScrolling:NO];
                                      sendScrollProgress = YES;
                                  }];
-    self.currentIndex = 0;
+    _currentIndex = 0;
     [self.pageControl reloadData];
 }
 
@@ -195,7 +198,7 @@
                                      //  NSLog(@"scrollToIndex: completed");
                                      
                                      [weakSelf setCurrentIndex:index];
-                                     [self setIsScrolling:NO];
+                                     [weakSelf setIsScrolling:NO];
                                      sendScrollProgress = YES;
                                      
                                  }];
@@ -298,7 +301,7 @@
 #pragma mark - UIPageViewController Delegate
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
-    NSUInteger index = [self.pages indexOfObject:pendingViewControllers.firstObject];
+//    NSUInteger index = [self.pages indexOfObject:pendingViewControllers.firstObject];
     
     //    [self.pageControl peekTabAtIndex:index];
 }
